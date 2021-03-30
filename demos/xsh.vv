@@ -1,0 +1,48 @@
+module main
+
+import xsh
+
+fn main() {
+	mut lines := []string{}
+	lines << [
+		'args: $xsh.args'
+		'origin: $xsh.origin'
+		'cmd_file: $xsh.cmd_file'
+		'cmd_name: $xsh.cmd_name'
+		'cmd_real_name: $xsh.cmd_real_name'
+		''
+		'is_quiet: $xsh.is_quiet'
+		'is_debug: $xsh.is_debug'
+		'is_verbose: $xsh.is_verbose'
+		''
+		'from_home: ${xsh.from_home('.xsh')}'
+		'user_path: $xsh.user_path().len'
+	]
+	if xsh.is_verbose {
+		mut c := 1
+		for line in xsh.user_path() {
+			lines << '  ${to_right(c)}: ' + line
+			c++
+		}
+	}
+	lines << [
+		''
+		'real_path: ${xsh.real_path('/some/three/../one/../../other/two')}'
+		'should be: /other/two'
+		''
+	]
+	println(lines.join_lines())
+	xsh.info('This is info')
+	xsh.warn('This is warn')
+	xsh.debug('This is debug')
+	xsh.verbose('This is verbose')
+	xsh.fail('This is error') or { xsh.report(err) }
+}
+
+// to_right align the number to the right
+fn to_right(n int) string {
+	if n < 10 {
+		return ' $n'
+	}
+	return '$n'
+}

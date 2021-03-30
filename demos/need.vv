@@ -1,0 +1,14 @@
+module main
+
+import xsh
+
+fn play() ? {
+	args := xsh.need_args(1) ?
+	some := xsh.need_env('some') ?
+	println('args: $args')
+	println('some: $some')
+}
+
+fn main() {
+	play() or { xsh.report(err) }
+}

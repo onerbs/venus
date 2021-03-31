@@ -1,6 +1,7 @@
 module xsh
 
 import os
+import str
 
 pub const (
 	args = os.args[1..]
@@ -9,15 +10,10 @@ pub const (
 	cmd_name = os.base(cmd_file)
 	cmd_real_name = os.base(origin)
 
-	is_quiet   = is_true(os.getenv('QUIET'))
-	is_debug   = !is_quiet && is_true(os.getenv('DEBUG'))
-	is_verbose = !is_quiet && is_true(os.getenv('VERBOSE'))
+	is_quiet   = str.is_true(os.getenv('QUIET'))
+	is_debug   = !is_quiet && str.is_true(os.getenv('DEBUG'))
+	is_verbose = !is_quiet && str.is_true(os.getenv('VERBOSE'))
 )
-
-// is_true check if the value indicates a boolean true
-fn is_true(value string) bool {
-	return value in ['true', 'on', '1']
-}
 
 // need_args ensures that the user have passed a certain
 // number of command-line arguments to the program

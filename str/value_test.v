@@ -1,5 +1,27 @@
 module str
 
+fn test_is_numeric() {
+	assert is_numeric('235')
+	assert is_numeric('1')
+	assert is_numeric('5.6')
+	assert is_numeric('.5')
+	assert is_numeric('-46')
+	assert !is_numeric('5.')
+	assert !is_numeric('3f')
+	assert !is_numeric('')
+}
+
+fn test_is_ingeger() {
+	assert is_integer('235')
+	assert is_integer('1')
+	assert !is_integer('5.6')
+	assert !is_integer('.5')
+	assert is_integer('-46')
+	assert !is_integer('5.')
+	assert !is_integer('3f')
+	assert !is_integer('')
+}
+
 fn test_is_true() {
 	assert is_true('true')
 	assert is_true('1')

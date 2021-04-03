@@ -15,7 +15,7 @@ fn main() {
 		'is_verbose: $xsh.is_verbose'
 		''
 		'from_home: ${xsh.from_home('.xsh')}'
-		'user_path: $xsh.user_path().len'
+		'user_path: $xsh.user_path().len entries'
 	]
 	if xsh.is_verbose {
 		mut c := 1
@@ -24,18 +24,12 @@ fn main() {
 			c++
 		}
 	}
-	lines << [
-		''
-		'real_path: ${xsh.real_path('/some/three/../one/../../other/two')}'
-		'should be: /other/two'
-		''
-	]
 	println(lines.join_lines())
-	xsh.info('This is info')
-	xsh.warn('This is warn')
-	xsh.debug('This is debug')
-	xsh.verbose('This is verbose')
-	xsh.fail('This is error') or { xsh.report(err) }
+	xsh.info('This is an informative message')
+	xsh.warn('This is a warning message')
+	xsh.debug('This is a debug message')
+	xsh.verbose('This is a verbose message')
+	xsh.fail('This is an error') or { xsh.report(err) }
 }
 
 // to_right align the number to the right

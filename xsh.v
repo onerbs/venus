@@ -29,6 +29,7 @@ pub fn need_args(count int) ?[]string {
 	return args
 }
 
+// need_env ensures that the specified environment variable has a value
 pub fn need_env(name string) ?string {
 	value := os.getenv(name)
 	if value.len == 0 {

@@ -51,5 +51,5 @@ pub fn is_integer(n string) bool {
 
 // is_true check if the provided string indicates a boolean true
 pub fn is_true(value string) bool {
-	return value in ['true', 'on', '1']
+	return value.to_lower() in ['true', 'yes', 'on', '1']
 }

@@ -4,7 +4,6 @@ import os
 import str
 
 pub const (
-	args = os.args[1..]
 	origin = os.executable()
 	cmd_file = os.args[0]
 	cmd_name = os.base(cmd_file)
@@ -15,9 +14,15 @@ pub const (
 	is_verbose = !is_quiet && str.is_true(os.getenv('VERBOSE'))
 )
 
+// get_args return the command-line arguments
+pub fn get_args() []string {
+  return os.args[1..]
+}
+
 // need_args ensures that the user have passed a certain
 // number of command-line arguments to the program
 pub fn need_args(count int) ?[]string {
+  args := get_args()
 	if args.len < count {
 		not_enough('arguments', count, args.len) ?
 	}

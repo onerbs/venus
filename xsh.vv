@@ -3,9 +3,8 @@ module main
 import xsh
 
 fn main() {
-	mut lines := []string{}
-	lines << [
-		'args: $xsh.args'
+	mut lines := [
+		'args: $xsh.get_args()'
 		'origin: $xsh.origin'
 		'cmd_file: $xsh.cmd_file'
 		'cmd_name: $xsh.cmd_name'

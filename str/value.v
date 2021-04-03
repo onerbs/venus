@@ -1,5 +1,22 @@
 module str
 
+// is_blank returns `true` if the string is empty
+// or contains only white space characters
+pub fn is_blank(s string) bool {
+	if s.len > 0 {
+		mut beg := 0
+		mut end := s.len - 1
+		for end >= beg {
+			if !s[beg].is_space() || !s[end].is_space() {
+				return false
+			}
+			beg++
+			end--
+		}
+	}
+	return true
+}
+
 // is_numeric check if the provided string is a number
 pub fn is_numeric(n string) bool {
 	match n.len {

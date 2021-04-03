@@ -1,5 +1,18 @@
 module str
 
+fn test_is_blank() {
+	assert is_blank('')
+	assert is_blank(' ')
+	assert is_blank(' \n ')
+	assert is_blank('\n\t  ')
+	assert is_blank('   \f ')
+	assert is_blank('   \v   ')
+	assert !is_blank('    a')
+	assert !is_blank('a    ')
+	assert !is_blank('  a   ')
+	assert !is_blank('   🤠  ')
+}
+
 fn test_is_numeric() {
 	assert is_numeric('235')
 	assert is_numeric('1')

@@ -91,3 +91,15 @@ pub fn real_path(base string) string {
 	}
 	return path.trim_right('/')
 }
+
+// simple return the file name without extension
+pub fn simple(base string) string {
+	if str.is_blank(base) {
+		return ''
+	}
+	parts := os.file_name(base).split('.')
+	if parts.len == 1 {
+		return parts[0]
+	}
+	return parts[..parts.len - 1].join('.')
+}

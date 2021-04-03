@@ -17,3 +17,12 @@ fn test_real_path() {
 	assert real_path('/a/b/c//..//../x/./.') == '/a/x'
 	assert real_path('/a//.//./') == '/a'
 }
+
+fn test_simple() {
+	assert simple('') == ''
+	assert simple('a') == 'a'
+	assert simple('a/b') == 'b'
+	assert simple('a/b.c') == 'b'
+	assert simple('a/b.c.v') == 'b.c'
+	assert simple('~/a/b.c.v') == 'b.c'
+}

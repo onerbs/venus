@@ -3,7 +3,7 @@ module xsh
 import os
 
 // get_input read from the standard input but allow empty lines
-pub fn get_input() ?string {
+pub fn get_input() string {
 	mut buff := []byte{cap: 0x400}
 	for {
 		c := C.getchar()
@@ -12,22 +12,18 @@ pub fn get_input() ?string {
 		}
 		buff << byte(c)
 	}
-	if buff.len > 0 {
-		return flush(buff)
-	}
-	return none
+	return flush(buff)
 }
 
 // get_lines read all lines from the standard input but allow empty lines
-pub fn get_lines() ?[]string {
-	mut lines := []string{}
+pub fn get_lines() []string {
 	mut buff := []byte{cap: 0x100}
+	mut lines := []string{}
 	for {
 		c := C.getchar()
 		if c < 0 {
 			break
 		}
-		// if c == `\r` { continue }
 		if c == `\n` {
 			if buff.len > 0 {
 				lines << flush(buff)
@@ -37,10 +33,7 @@ pub fn get_lines() ?[]string {
 			buff << byte(c)
 		}
 	}
-	if lines.len > 0 {
-		return lines
-	}
-	return none
+	return lines
 }
 
 fn C.fgetc(&C.FILE) int
@@ -57,10 +50,7 @@ pub fn read_file(file string) ?string {
 		buff << byte(c)
 	}
 	C.fclose(fp)
-	if buff.len > 0 {
-		return flush(buff)
-	}
-	return none
+	return flush(buff)
 }
 
 // read_file read the lines of the given text file
@@ -86,10 +76,7 @@ pub fn read_lines(file string) ?[]string {
 	if buff.len > 0 {
 		lines << flush(buff)
 	}
-	if lines.len > 0 {
-		return lines
-	}
-	return none
+	return lines
 }
 
 fn flush(buff []byte) string {

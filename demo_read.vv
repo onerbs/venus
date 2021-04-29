@@ -1,0 +1,16 @@
+module main
+
+import xsh
+
+fn play() ? {
+	source := '${xsh.file_name}.vv'
+	println(xsh.read_file(source) ?)
+	println('--- ✨ $source ✨ ---')
+	for line in xsh.read_lines(source) ? {
+		println(line)
+	}
+}
+
+fn main() {
+	play() or { xsh.report(err) }
+}

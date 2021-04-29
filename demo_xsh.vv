@@ -1,0 +1,42 @@
+module main
+
+import xsh
+
+// play is the entry point of this program
+fn play() ? {
+	mut lines := [
+		'args: $xsh.get_args()',
+		'',
+		'file: $xsh.file',
+		'root: $xsh.root',
+		'',
+		'file_name: $xsh.file_name',
+		'root_name: $xsh.root_name',
+		'',
+		'is_quiet: $xsh.is_quiet',
+		'is_debug: $xsh.is_debug',
+		'is_verbose: $xsh.is_verbose',
+		'',
+		'user_name: $xsh.user_name()',
+		'from_home: ${xsh.from_home('xsh')}',
+		'user_path: $xsh.user_path().len entries',
+	]
+	if xsh.is_verbose {
+		mut c := 1
+		for line in xsh.user_path() {
+			lines << '${c:4}: ' + line
+			c++
+		}
+	}
+	println(lines.join_lines())
+	println('')
+	xsh.debug('This is a debug message')
+	xsh.verbose('This is a verbose message')
+	xsh.info('This is an informative message')
+	xsh.warn('This is a warning message')
+	xsh.fail('This is an error message') ?
+}
+
+fn main() {
+	play() or { xsh.report(err) }
+}

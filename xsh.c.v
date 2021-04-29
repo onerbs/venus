@@ -1,84 +1,87 @@
 module xsh
 
+import str.buffer
 import os
 
-// get_input read from the standard input but allow empty lines
+// get_input read data from the standard input
+// trailing white spaces are trimmed from the result
 pub fn get_input() string {
-	mut buff := []byte{cap: 0x400}
+	mut buf := buffer.new()
 	for {
 		c := C.getchar()
 		if c < 0 {
 			break
 		}
-		buff << byte(c)
+		buf.push(byte(c))
 	}
-	return flush(buff)
+	return buf.trim()
 }
 
-// get_lines read all lines from the standard input but allow empty lines
+// get_lines read all lines from the standard input
+// trailing white spaces are trimmed from every line
+// the result does not contains empty lines
 pub fn get_lines() []string {
-	mut buff := []byte{cap: 0x100}
-	mut lines := []string{}
+	mut res := []string{}
+	mut buf := buffer.new()
 	for {
 		c := C.getchar()
 		if c < 0 {
 			break
 		}
 		if c == `\n` {
-			if buff.len > 0 {
-				lines << flush(buff)
-				buff = []byte{cap: 0x100}
+			s := buf.trim()
+			if s.len > 0 {
+				res << s
 			}
 		} else {
-			buff << byte(c)
+			buf.push(byte(c))
 		}
 	}
-	return lines
+	return res
 }
 
 fn C.fgetc(&C.FILE) int
 
-// read_file read the content of the given text file
+// read_file read the content of the given file
+// trailing white spaces are trimmed from the result
 pub fn read_file(file string) ?string {
 	fp := os.vfopen(file, 'r') ?
-	mut buff := []byte{cap: 0x400}
+	mut buf := buffer.new()
 	for {
 		c := C.fgetc(fp)
 		if c < 0 {
 			break
 		}
-		buff << byte(c)
+		buf.push(byte(c))
 	}
 	C.fclose(fp)
-	return flush(buff)
+	return buf.trim()
 }
 
-// read_file read the lines of the given text file
+// read_file read the lines of the given file
+// trailing white spaces are trimmed from every line
+// the result does not contains empty lines
 pub fn read_lines(file string) ?[]string {
 	fp := os.vfopen(file, 'r') ?
-	mut buff := []byte{cap: 0x100}
-	mut lines := []string{}
+	mut buf := buffer.new()
+	mut res := []string{}
 	for {
 		c := C.fgetc(fp)
 		if c < 0 {
 			break
 		}
 		if c == `\n` {
-			if buff.len > 0 {
-				lines << flush(buff)
-				buff = []byte{cap: 0x100}
+			s := buf.trim()
+			if s.len > 0 {
+				res << s
 			}
 		} else {
-			buff << byte(c)
+			buf.push(byte(c))
 		}
 	}
 	C.fclose(fp)
-	if buff.len > 0 {
-		lines << flush(buff)
+	if buf.len > 0 {
+		res << buf.trim()
 	}
-	return lines
-}
-
-fn flush(buff []byte) string {
-	return string(buff).trim_space()
+	return res
 }

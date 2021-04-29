@@ -38,14 +38,16 @@ pub fn (mut self Buffer) str() string {
 // trim returns the string representation of this item, without trailing white spaces
 pub fn (mut self Buffer) trim() string {
 	mut beg := 0
-	mut end := self.len - 1
-	for ; self.data[beg].is_space(); beg++ {
+	mut end := self.len
+	for ;; beg++ {
 		if beg == end {
 			return ''
 		}
+		else if !self.data[beg].is_space() {
+			break
+		}
 	}
-	for ; self.data[end].is_space(); end-- {}
-	end++
+	for ; self.data[end - 1].is_space(); end-- {}
 	raw := unsafe { &byte(memdup(self.data[beg..end].data, end - beg)) }
 	res := unsafe { raw.vstring_with_len(end - beg) }
 	self.set_pos(0)
